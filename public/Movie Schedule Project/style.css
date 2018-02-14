@@ -1,0 +1,28 @@
+body {
+  background: #f06d06;
+  font-size: 100%;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+main {
+  width: 60%;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectedposter {
+  border: 10px solid black;
+}
+.container {
+  background: black;
+  color: white;
+  width: 50%;
+  padding: 20px;
+}
