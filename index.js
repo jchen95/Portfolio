@@ -17,6 +17,8 @@ db.once('open', function() {
   console.log('connected to mongodb')
 });
 
+
+
 //CHECK FOR ERROR
 db.on('error', function() {
   console.log(err);
@@ -35,26 +37,26 @@ var blogSchema = new mongoose.Schema({
 var Blog = module.exports = mongoose.model("Blog", blogSchema);
 
 
-//ROUTES
-
+//HOMEPAGE ROUTE
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/htmlroutes/homepage.html'));
 });
-  
+
 //BLOG ROUTES
-
-
 //BLOG HOME
-app.get('/blog', function(req, res) {
+
+app.get('/blog', function(req, res) { 
   Blog.find({}, function(err,blogs) {
     if (err) {
       console.log(err)
     } else {
-      res.render('test', {
+      res.render('index', {
         blogs: blogs
       })
     } 
-  })
+  }).sort({_id: -1}).exec(function(err,docs){
+    console.log('data was sorted')
+  });
 });
 
 //BLOG CREATE
@@ -90,6 +92,49 @@ app.get('/blog/:id', function(req,res) {
     }
   })
 })
+
+
+//BLOG EDIT
+app.get('/blog/:id/edit', function(req,res) {
+  Blog.findById(req.params.id, function(err,foundBlog){
+    if (err) {
+      res.redirect('/blog')
+    } else {
+      res.render('edit', {blog: foundBlog});
+    }
+  })
+})
+
+
+app.post('/blog/:id/edit', function(req,res) {
+  console.log(req.body.title);
+  var oldBlog = {}
+
+  oldBlog.title = req.body.title;
+  oldBlog.body = req.body.body;
+
+  var query = {_id: req.params.id}
+
+  Blog.update(query, oldBlog, function(err,newBlog){
+    if (err) {
+      console.log(err)
+    } else {
+      res.redirect('/blog')
+    }
+  })
+})
+
+//DELETE ROUTE
+app.post('/blog/:id', function(req,res){
+  Blog.findByIdAndRemove(req.params.id, function(err){
+    if(err) {
+      res.redirect('/blogs');
+      console.log(err)
+    } else {
+      res.redirect('/blog')
+    }
+  })
+});
 
 
 

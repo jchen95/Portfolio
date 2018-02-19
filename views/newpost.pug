@@ -1,8 +1,12 @@
 extends layout
 
 block content
-  h1 Create a new post
-    form(method='POST', action='/blog/new')
-      input(type='text' name='title')
-      input(type='text' name='body')
-      input(type='submit')
+
+  .display
+    h1 Create a new post
+      form(method='POST', action='/blog/new' style='padding-top: 50px;')
+        input(type='text' name='title' style='width:400px')
+        br
+        textarea(row='5' col='60' name='body' style='height: 200px; width:400px')
+        br
+        input(type='submit')

@@ -1,0 +1,10 @@
+extends layout
+
+block content
+
+  .container
+    h1 Create a new post
+      form(method='POST', action='/blog/'+blog._id+'/edit') 
+        input(type='text', name= 'title', value= blog.title)
+        input(type='text', name= 'body', value= blog.body)
+        input(type='submit')

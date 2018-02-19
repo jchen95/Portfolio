@@ -1,70 +1,25 @@
 extends layout
 
 block content
+  .test1
     .area1
-      .ptext
-        span.border
           #whitebg
             h1 Jason Chen
-            h3 The ultimate degen
-            .btnList
-              i.fab.fa-twitter.fa-3x.btn(aria-hidden='true')
-              i.fab.fa-twitch.fa-3x.btn(aria-hidden='true')
-              i.fab.fa-github.fa-3x.btn(aria-hidden='true')
+            h3 The ultimate gamer girl
+          .btnList
+            a(href='https://www.linkedin.com/in/jason-chen-b4460a8b/', style='text-decoration : none; color: white;')
+              i.fab.fa-linkedin-in.fa-2x
+            a(href='https://github.com/jchen95', style='text-decoration : none; color: white;')
+              i.fab.fa-fw.fa-github.fa-2x
+            a(href='https://twitter.com/jchentai', style='text-decoration : none; color: white;')
+              i.fab.fa-fw.fa-twitter.fa-2x
     .container
-      section.section.section-part1
-        h2#date Febuary 12th, 2018
-        p#P P: Created backend portfolio website.  Finish portfolio design
-        p#A A:
-        p#C C: n/a 
-        p#S S: Streamed 2 hours Resident Evil 8 max viewers including 2 new faces
-      section.section.section-part1
-        h2#date Febuary 12th, 2018
-        p#P P: Installed linux on laptop, udemy section 27, 28 finish portfolio page
-        p#A A: Drawing class tonal study 
-        p#C C: n/a 
-        p#S S: n/a 
-      section.section.section-part1
-        h2#date Febuary 11th, 2018
-        p#P P: Overhaul Portfolio Page day2
-        p#A A: n/a
-        p#C C:n/a 
-        p#S S:n/a 
-      section.section.section-part1
-        h2#date Febuary 10th, 2018
-        p#P P: Overhaul Portfolio Page
-        p#A A: 
-        p#C C: 
-        p#S S: 
-      section.section.section-part1
-        h2#date Febuary 9th, 2018
-        p#P P: Udemy Webdev Bootcamp Section 26
-        p#A A: Hand Drawing
-        p#C C: n/a
-        p#S S: 
-      section.section.section-part1
-        section.section.section-part1
-          h2#date Febuary 8th, 2018
-          p#P P: Trello Board, Udemy Webdev Bootcamp Section 24/25, Started Movie Project 
-          p#A A: Hand Drawing
-          p#C C: n/a
-          p#S S: Resident Evil/CS 11 viewers
-        section.section.section-part1
-          h2#date Febuary 7th, 2018
-          p#P P: Github, Udemy Webdev Bootcamp Section 22/23, freecodecamp algorithem 
-          p#A A: Hand Drawings
-          p#C C: n/a
-          p#S S: n/a
-        section.section.section-part1
-          h2#date Febuary 6th, 2018
-          p#P P: Udemy and created blog 
-          p#A A: Hand Drawings
-          p#C C: n/a
-          p#S S: Resident Evil 2 hours 3 max viewers
-        section.section.section-part2
-          h2#date Febuary 5th, 2018
-          p#P P: Coded Patapap Game and started using Git and Github
-          p#A A: Figure drawing sketches 2 pgs
-          p#C C: n/a
-          p#S S: Resident Evil 2.5 hours 12 max viewers
-
+      each blog in blogs
+        .section
+          h2= blog.title
+          p= blog.body
+          a(href='/blog/'+ blog._id) Read More
+        
+        
+        
+        

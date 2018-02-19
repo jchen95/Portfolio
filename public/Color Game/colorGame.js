@@ -20,11 +20,11 @@ function init () {
       this.textContent === "Easy" ? numbSquares = 3: numbSquares = 6;
       reset();
     } )
-  }  
+  } 
   for (i = 0; i < squares.length; i++) {
     squares[i].addEventListener("click", function () {
-      var clickedColor = this.style.background;
-      if (clickedColor === pickedColor) {
+      var clickedColor = this.style.backgroundColor;
+      if (clickedColor == pickedColor) {
         statusDisplay.textContent = "Correct!";
         resetButton.textContent = "Play Again?";
         clickedRight (pickedColor);

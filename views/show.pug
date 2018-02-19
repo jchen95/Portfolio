@@ -2,4 +2,10 @@ extends layout
 
 block content
 
-  h1= blog.title
+
+  .display
+    h1= blog.title
+    p= blog.body
+    a(href= '/blog/'+ blog._id + '/edit') Edit
+    form(method='POST', action='/blog/' + blog._id + '?_method=DELETE')
+        button DELETE
