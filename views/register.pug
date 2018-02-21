@@ -1,0 +1,16 @@
+extends layout
+
+block content
+
+  .display
+    h1 Registration Form
+    form(method='POST', action='/blog/register' style='padding-top: 50px;')
+      input(type='text' name='name' style='width:400px')
+      br
+      input(type='text' name='username' style='width:400px')
+      br
+      input(type='text' name='password' style='width:400px')
+      br
+      input(type='text' name='password2' style='width:400px')
+      br
+      input(type='submit')

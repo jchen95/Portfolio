@@ -5,11 +5,19 @@ var bodyParser = require("body-parser");
 var path = require('path');
 var pug = require('pug');
 var db = mongoose.connection;
+var bcrypt = require('bcryptjs')
+var expressValidator = require('express-validator');
 
+var Blog = require('./module/Blog')
+var User = require('./module/User')
+var Comment = require('./module/Comments')
+
+app.use(expressValidator())
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname,'views'));
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 //CHECK MONGODB CONNECTION
 mongoose.connect('mongodb://localhost/portfolio_app')
@@ -17,24 +25,10 @@ db.once('open', function() {
   console.log('connected to mongodb')
 });
 
-
-
 //CHECK FOR ERROR
 db.on('error', function() {
   console.log(err);
 });
-
-//MONGOOSE CONFIG
-var blogSchema = new mongoose.Schema({
-  title: String,
-  body: String,
-  created: {
-    type: Date,
-    default: Date.now,
-  }
-});
-
-var Blog = module.exports = mongoose.model("Blog", blogSchema);
 
 
 //HOMEPAGE ROUTE
@@ -42,7 +36,7 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/htmlroutes/homepage.html'));
 });
 
-//BLOG ROUTES
+
 //BLOG HOME
 
 app.get('/blog', function(req, res) { 
@@ -55,9 +49,10 @@ app.get('/blog', function(req, res) {
       })
     } 
   }).sort({_id: -1}).exec(function(err,docs){
-    console.log('data was sorted')
   });
 });
+
+
 
 //BLOG CREATE
 app.get('/blog/new',function(req,res) {
@@ -66,7 +61,6 @@ app.get('/blog/new',function(req,res) {
 })
 
 app.post('/blog/new', function(req,res) {
-  console.log(req.body.title);
   var newBlog = new Blog();
 
   newBlog.title = req.body.title;
@@ -82,16 +76,74 @@ app.post('/blog/new', function(req,res) {
 })
 
 
+
+
+
+//USER REGISTRATION
+app.get('/blog/register',function(req,res) {
+  res.render('register', {
+  })
+})
+
+app.post('/blog/register', function (req,res) {
+  var name = req.body.name;
+  var username = req.body.username;
+  var password = req.body.password;
+  var password2 = req.body.password2;
+
+  req.checkBody('name', 'name is required').notEmpty();
+  req.checkBody('username', 'username is required').notEmpty();
+  req.checkBody('password', 'password is required').notEmpty();
+  req.checkBody('password2', 'password do not match').equals(req.body.password);
+
+  let errors = req.validationErrors();
+
+  if(errors) {
+    res.render('register', {
+      errors:errors
+    });
+  } else {
+    var newUser = new User ({
+      name:name,
+      username: username,
+      password: password
+    });
+    bcrypt.genSalt(10, function(err,salt){
+      bcrypt.hash(newUser.password,salt,function(err,hash){
+        if(err) {
+          console.log(err);
+        }
+        newUser.password = hash;
+        newUser.save(function(err){
+          if(err) {
+            console.log(err);
+            return;
+          } else {
+            res.redirect('/blog')
+          }
+        })
+    })
+  })
+}
+})
+
+app.get('/blog/login', function(req,res){
+  res.render('login')
+});
+
 //BLOG SHOW
 app.get('/blog/:id', function(req,res) {
-  Blog.findById(req.params.id, function(err,foundBlog){
+  Blog.findById(req.params.id).populate('comments').exec(function(err,foundBlog){
     if (err) {
       res.redirect('/blog')
     } else {
+      console.log(foundBlog.comments.author)
       res.render('show', {blog: foundBlog});
     }
   })
 })
+
+
 
 
 //BLOG EDIT
@@ -135,6 +187,37 @@ app.post('/blog/:id', function(req,res){
     }
   })
 });
+
+//COMMENT ROUTES
+app.get('/blog/:id/comments/new', function(req,res) {
+  Blog.findById(req.params.id, function(err,foundBlog){
+    if (err) {
+      console.log(err)
+      res.redirect('/blog')
+    } else {
+      res.render('newcomment', {blog: foundBlog});
+    }
+  })
+})
+
+app.post('/blog/:id/comments/new', function(req,res) {
+  Blog.findById(req.params.id, function (err,blogs){
+    if (err) {
+      console.log(err)
+      res.redirect('/blog')
+    } else {
+      Comment.create({author: req.body.author, body: req.body.body}, function(err,newComment){
+        if (err) {
+          console.log(err)
+        } else {
+          blogs.comments.push(newComment)
+          blogs.save()
+          res.redirect('/blog/:id')
+        }
+      })  
+    }
+  })
+})
 
 
 

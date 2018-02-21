@@ -33,6 +33,8 @@ nav {
 
 .display p {
   font-size: 20px;
+  width:75%;
+  margin: auto;
 }
 
 .nav{
@@ -99,8 +101,7 @@ h3 {
   background-color: rgba(0,0,0,.0); /* the last digit modifies opacity */
   margin: auto auto;
   width: 80%; /* this modifies the width of the box containing the name */
-  padding: 1%;
-  padding-top: 125px /* controls the white background in Jason Chen */
+  padding: 10%; /* controls the white background in Jason Chen */
 }
 
 .btn {
