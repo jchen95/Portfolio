@@ -2,9 +2,11 @@ extends layout
 
 block content
 
-  .container
-    h1 Create a new post
-      form(method='POST', action='/blog/'+blog._id+'/edit') 
-        input(type='text', name= 'title', value= blog.title)
-        input(type='text', name= 'body', value= blog.body)
-        input(type='submit')
+  .display
+    .sigh
+      h2 Edit Post
+      form.form-group(method='POST', action='/blog/'+blog._id+'/edit' style='padding-top: 5%') 
+        input.form-control.form-control-lg(type='text' style='width:402px;' name= 'title' value= blog.title)
+        input.form-control(type='text' name='cycles' placeholder='Cycles' value=blog.cycles style='width:402px')
+        textarea#comment.form-control(rows='5' name='body')= blog.body
+        input.form-control(type='submit')

@@ -7,16 +7,18 @@ html(lang='en')
     title Portfolio
     link(rel='stylesheet', href='/Blog/css/style.css')
     link(href='https://use.fontawesome.com/releases/v5.0.6/css/all.css', rel='stylesheet')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     link(href='https://fonts.googleapis.com/css?family=Inconsolata', rel='stylesheet')
   body
+  .grey
     nav
-      ul.nav
-        li
-          a(href='/blog ') Home
-        li
-          a(href='/blog/new') New Post
-        li
-          a(href= '/') Portfolio
+      ul.nav.justify-content-center
+        li.nav-item
+          a.nav-link(href='/blog/home/1 ') Home
+        li.nav-item
+          a.nav-link(href='/blog/new') New Post
+        li.nav-item
+          a.nav-link(href= '/') Portfolio
     
     block content
     br

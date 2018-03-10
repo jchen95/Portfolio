@@ -1,10 +1,9 @@
 extends layout
 
 block content
-  .test1
     .area1
       #whitebg
-        h1 Jason Chen
+        h1 Path of Chentai
         h3 The ultimate gamer girl
         .btnList
           a(href='https://www.linkedin.com/in/jason-chen-b4460a8b/', style='text-decoration : none; color: white;')
@@ -13,13 +12,34 @@ block content
            i.fab.fa-fw.fa-github.fa-2x
           a(href='https://twitter.com/jchentai', style='text-decoration : none; color: white;')
            i.fab.fa-fw.fa-twitter.fa-2x
-    .container
+    .blogsContainer
       each blog in blogs
         .section
           h2= blog.title
+          h3= 'Cycles: ' + blog.cycles
           p= blog.body
           a(href='/blog/'+ blog._id) Read More
+    if pages > 0
+      ul.pagination.justify-content-center
+        if current == 1
+          li.hide
+            a first
+        else
+          li
+            a(href = "/blog/home/1") First
+        - var i = 1
+          while i <= pages
+            li.page-item 
+              a(href='/blog/home/' + i)= i++
+        if current == pages
+          li.hide
+            a Last
+        else
+          li.page-item
+            a(href = "/blog/home/" + pages) Last
+
+
         
+    
         
-        
-        
+    

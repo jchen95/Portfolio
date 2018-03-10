@@ -1,52 +1,50 @@
 body,html {
-  height:100%;
-  margin: 0;
   font-size:16px;
   font-family:"Inconsolata", sans-serif;
   font-weight:400;
   line-height: 1.8em;
-}
-
-body {
   background-color:grey;
 }
 
-
-nav {
-  text-align: center;
-  margin:auto;
-  width: 75%;
-  background-color: #333;
+.grey {
+  background-color:grey;
 }
 
-.show {
-  text-align: center;
-}
 
 .display {
   width: 75%;
   margin: auto;
   background-color: white;
-  padding-top: 25px;
   text-align: center;
+  padding-top: 25px;
 }
 
 .display p {
   font-size: 20px;
+  padding-top: 2%;
   width:75%;
   margin: auto;
+  text-align: left;
 }
 
-.nav{
-  display: inline-block;
+.hide {
+  display:none;
 }
 
-.container {
+.blogsContainer {
   width: 75%;
   margin:0 auto;
   background-color: white;
 }
- 
+
+textarea {
+  font-size: 50%;
+}
+
+.sigh {
+  width:75%;
+  margin:auto;
+}
 
 .area1,.area2,.area3{
   position: relative;
@@ -62,8 +60,8 @@ nav {
   width:75%;
   max-width: 100%;
   color:rgb(217,220,222);
-  z-index: -1;
   margin: auto;
+  background-color:grey;
 }
 
 
@@ -82,65 +80,60 @@ nav {
   margin-left: auto;
   padding: 20px;
 }
+.btnList {
+text-align: center;
+}
 
-h1{
+body h1{
   text-align: center;
   font-size: 6.0em;         
 }
-
+body h2 {
+  text-align: center;
+  font-size: 3.0em
+}
 h3 {
   text-align:center;
   font-size: 2.0em;
 }
 
-.btnList{
-  text-align: center
-}
-
 #whitebg {
-  background-color: rgba(0,0,0,.0); /* the last digit modifies opacity */
-  margin: auto auto;
+  margin: auto;
   width: 80%; /* this modifies the width of the box containing the name */
-  padding: 10%; /* controls the white background in Jason Chen */
+  padding: 15%;
 }
 
-.btn {
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;
-    outline:none;
-  }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+nav {
+    margin:auto;
+    width: 75%;
     background-color: #333;
 }
 
-li {
-    float: left;
-}
-
 li a {
-    display: block;
+    display:block;
     color: white;
-    text-align: center;
     padding: 14px 16px;
-    text-decoration: none;
     font-size: 1.5em;
 }
 
-/* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #111;
+    color: grey;
 }
 
 #date {
   text-align: left;
   font-size: 2.5em;
+}
+
+.zebuttons{
+  padding-top: 3%;
+  margin-right:auto;
+  width:10%
+}
+
+.zebuttoncontainer {
+  width:75%;
+  margin: auto;
 }
 

@@ -39,25 +39,9 @@ app.get('/', function(req, res) {
 
 //BLOG HOME
 
-app.get('/blog', function(req, res) { 
-  Blog.find({}, function(err,blogs) {
-    if (err) {
-      console.log(err)
-    } else {
-      res.render('index', {
-        blogs: blogs
-      })
-    } 
-  }).sort({_id: -1}).exec(function(err,docs){
-  });
-});
-
-
-
 //BLOG CREATE
 app.get('/blog/new',function(req,res) {
-  res.render('newpost', {
-  })
+  res.render('newpost')
 })
 
 app.post('/blog/new', function(req,res) {
@@ -65,15 +49,41 @@ app.post('/blog/new', function(req,res) {
 
   newBlog.title = req.body.title;
   newBlog.body = req.body.body;
+  newBlog.cycles = req.body.cycle 
 
   newBlog.save(function(err,newBlog){
     if (err) {
       console.log(err)
     } else {
-      res.redirect('/blog')
+      res.redirect('/blog/home/1')
     }
   })
 })
+
+
+app.get('/blog/home/:page', function(req, res) { 
+  var perPage = 9
+  var page = req.params.page || 1
+  
+  Blog
+  .find({})
+  .sort({_id: -1})
+  .skip((perPage * page) - perPage)
+  .limit(perPage)
+  .exec(function (err, blogs) {
+    Blog.count().exec(function(err,count) {
+      if (err) return next (err)
+      res.render('index', {
+        blogs: blogs,
+        current: page,
+        pages: Math.ceil(count / perPage)
+      })
+    })
+  })
+});
+
+
+
 
 
 
@@ -119,7 +129,7 @@ app.post('/blog/register', function (req,res) {
             console.log(err);
             return;
           } else {
-            res.redirect('/blog')
+            res.redirect('/blog/home/1')
           }
         })
     })
@@ -137,7 +147,6 @@ app.get('/blog/:id', function(req,res) {
     if (err) {
       res.redirect('/blog')
     } else {
-      console.log(foundBlog.comments.author)
       res.render('show', {blog: foundBlog});
     }
   })
@@ -159,11 +168,11 @@ app.get('/blog/:id/edit', function(req,res) {
 
 
 app.post('/blog/:id/edit', function(req,res) {
-  console.log(req.body.title);
   var oldBlog = {}
 
   oldBlog.title = req.body.title;
   oldBlog.body = req.body.body;
+  oldBlog.cycles = req.body.cycles;
 
   var query = {_id: req.params.id}
 
@@ -171,7 +180,7 @@ app.post('/blog/:id/edit', function(req,res) {
     if (err) {
       console.log(err)
     } else {
-      res.redirect('/blog')
+      res.redirect('/blog/home/1')
     }
   })
 })
@@ -183,7 +192,7 @@ app.post('/blog/:id', function(req,res){
       res.redirect('/blogs');
       console.log(err)
     } else {
-      res.redirect('/blog')
+      res.redirect('/blog/home/1')
     }
   })
 });
@@ -219,6 +228,34 @@ app.post('/blog/:id/comments/new', function(req,res) {
   })
 })
 
+//Comment SHOW
+app.get('/blog/:id/comments/:commentsid', function(req,res) {
+  Blog.findById(req.params.id, function(err,foundBlog){
+    if (err) {
+      res.redirect('/blog')
+    } else {
+      Comment.findById(req.params.commentsid, function(err,foundComment){
+        if (err){
+          console.log('can not find')
+          res.redirect('/blog')
+        } else {
+          res.render('commentshow', {comment: foundComment});
+        }
+      })
+    }
+  })
+})
+
+app.post('/blog/:id/comments/:commentid', function(req,res){
+  Comment.findByIdAndRemove(req.params.commentid, function(err){
+    if(err) {
+      res.redirect('/blogs');
+      console.log(err)
+    } else {
+      res.redirect('/blog')
+    }
+  })
+});
 
 
 app.get('/movie', function(req, res) {

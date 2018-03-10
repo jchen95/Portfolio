@@ -4,14 +4,20 @@ block content
 
 
   .display
-    h1= blog.title
+    h2= blog.title
+    h3= blog.cycle
     p= blog.body
-    a(href='/blog/'+ blog._id + '/comments/new') New Comment
     each comment in blog.comments
       .section
         p= comment.author
         p= comment.body
-
-    a(href= '/blog/'+ blog._id + '/edit') Edit
-    form(method='POST', action='/blog/' + blog._id + '?_method=DELETE')
-        button DELETE
+        a(href='/blog/'+ blog._id + '/comments/new') New Comment
+        form(method='POST', action='/blog/'+ blog._id + "/comments/" + comment._id + '?_method=DELETE')
+          button DELETE
+        a(href='/blog/'+ blog._id + "/comments/" + comment._id) Read More Comments
+    .zebuttoncontainer
+      .zebuttons
+        a(href= '/blog/'+ blog._id + '/edit') 
+          button.btn.btn-block.btn-primary Edit  
+        form(method='POST', action='/blog/' + blog._id + '?_method=DELETE')
+          button.btn.btn-block.btn-danger Delete
